@@ -8,7 +8,7 @@
 #   tools/preparar-videos.sh institucional <entrada.mp4> <salida.mp4> [segundos]
 #       Para videos de otro tamaño u orientación: los lleva a 1080x1920 recortando al centro.
 #   tools/preparar-videos.sh fondo <entrada.mp4> <salida.mp4> [segundos]
-#       Fondo del catálogo: desenfocado, 540x960 (al estar desenfocado no hace falta más)
+#       Fondo del catálogo: desenfocado, 360x640 (al estar desenfocado no hace falta más)
 #       y en "ida y vuelta" para que el loop no tenga saltos. Duración final: el doble.
 #
 # Se mantienen los fps originales (convertir 24 → 30 fps hace que el movimiento se vea a saltitos).
@@ -37,8 +37,8 @@ case $modo in
   fondo)
     segundos=${4:-10}
     ffmpeg -y -i "$entrada" -t "$segundos" -filter_complex \
-      "[0:v]$(cubrir 540 960),gblur=sigma=14,eq=brightness=-0.04,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1[v]" \
-      -map "[v]" "${comunes[@]}" -b:v 1M -maxrate 1.5M -bufsize 3M "$salida"
+      "[0:v]$(cubrir 360 640),gblur=sigma=9,eq=brightness=-0.04,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1[v]" \
+      -map "[v]" "${comunes[@]}" -b:v 700k -maxrate 1M -bufsize 2M "$salida"
     ;;
   *)
     echo "Modo desconocido: $modo (usar 'limpiar', 'institucional' o 'fondo')" >&2

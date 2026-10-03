@@ -162,7 +162,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 3. **Videos:**
    - Formato H.264 MP4, sin audio, con los fps originales (convertir 24 → 30 fps genera tirones).
    - **Institucionales:** 1080×1920. Los actuales (generados con IA, 4.5–8 Mbps) se usan sin recomprimir, solo se les quita el audio (`tools/preparar-videos.sh limpiar`).
-   - **Fondo del catálogo:** 540×960. Al estar desenfocado se ve igual que en 1080×1920 y el TV decodifica 4 veces menos píxeles. Se arma en "ida y vuelta" para que el loop no tenga saltos.
+   - **Fondo del catálogo:** 360×640 (viñedo con uvas, solo movimiento de viento). Al estar desenfocado se ve igual que en 1080×1920 y el TV decodifica 9 veces menos píxeles. Se arma en "ida y vuelta" para que el loop no tenga saltos.
 4. **Imágenes:** se piden a 800 px de ancho como máximo, y se liberan las que no están en el DOM.
 5. **DOM estable:** cada página se arma una sola vez por ciclo. No se destruye ni recrea nada mientras se ve.
 
@@ -246,7 +246,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 - [x] Tipografías: Playfair Display + Barlow.
 - [ ] ¿Los ítems en oferta van en página propia, más grandes, o mezclados con el resto? (hoy: mezclados, con badge)
 - [x] Videos institucionales: 4 videos de 10 s generados con IA.
-- [ ] Video de fondo definitivo (hoy: provisorio, hecho con el institucional 3 desenfocado).
+- [x] Video de fondo: generado con IA, desenfocado por script.
 - [ ] Validar que el formato de URL de imágenes de Drive funcione (Fase 2).
 
 ---
