@@ -10,26 +10,28 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="stage">
-    <video id="bg-video" class="bg-video" muted loop playsinline autoplay preload="auto"></video>
+  <div id="screen">
+    <div id="stage">
+      <video id="bg-video" class="bg-video" muted loop playsinline autoplay preload="auto"></video>
 
-    <main class="label">
-      <header class="label-header">
-        <img class="logo" src="media/logo.svg" alt="Punto Express">
-      </header>
-      <section class="pages">
-        <div class="page"></div>
-        <div class="page"></div>
+      <main class="label">
+        <header class="label-header">
+          <img class="logo" src="media/logo.svg" alt="Punto Express">
+        </header>
+        <section class="pages">
+          <div class="page"></div>
+          <div class="page"></div>
+        </section>
+        <footer class="label-footer" id="footer-text"></footer>
+      </main>
+
+      <section id="institutional" class="institutional">
+        <video id="inst-video" muted playsinline preload="auto"></video>
+        <div class="inst-logo"><img src="media/logo.svg" alt=""></div>
       </section>
-      <footer class="label-footer" id="footer-text"></footer>
-    </main>
 
-    <section id="institutional" class="institutional">
-      <video id="inst-video" muted playsinline preload="auto"></video>
-      <div class="inst-logo"><img src="media/logo.svg" alt=""></div>
-    </section>
-
-    <div id="debug" hidden></div>
+      <div id="debug" hidden></div>
+    </div>
   </div>
 
   <script src="vendor/papaparse.min.js"></script>

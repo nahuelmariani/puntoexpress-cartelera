@@ -50,6 +50,14 @@ html, body {
   user-select: none;
 }
 
+/* Marco del tamaño exacto de la pantalla. Recorta el escenario para que los
+   navegadores de celular no "alejen" la página al ver contenido más grande. */
+#screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
 /* ==========================================================
    Escenario fijo 1080x1920. main.js lo escala y rota para
    que entre en cualquier pantalla.

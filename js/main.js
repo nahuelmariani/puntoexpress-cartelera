@@ -22,6 +22,7 @@ const timing = {
   institutionalMaxMs: (fast ? 4 : CONFIG.segundosMaxInstitucional) * 1000,
 };
 
+const frame = document.getElementById('screen');
 const stage = document.getElementById('stage');
 const dom = {
   slots: [...document.querySelectorAll('.page')],
@@ -34,7 +35,7 @@ function fitStage() {
   const sideways = rotation % 180 !== 0;
   const w = sideways ? STAGE_H : STAGE_W;
   const h = sideways ? STAGE_W : STAGE_H;
-  const scale = Math.min(innerWidth / w, innerHeight / h);
+  const scale = Math.min(frame.clientWidth / w, frame.clientHeight / h);
   stage.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(${scale})`;
 }
 
