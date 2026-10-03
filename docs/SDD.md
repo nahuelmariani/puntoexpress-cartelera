@@ -99,7 +99,7 @@ Todo desde el celular, con la app de Google Sheets y la de Google Drive.
 **Notas técnicas:**
 - La app convierte el link de Drive a una URL de imagen directa redimensionada por Google (`https://lh3.googleusercontent.com/d/<ID>=w800`), así las fotos pesadas del celular no se descargan completas.
 - **Riesgo:** este formato de URL no está documentado oficialmente por Google. Funciona (validado en la Fase 2), pero si Google lo cambia, la alternativa es Cloudinary (plan gratuito). Mientras tanto, si una imagen no carga, la tarjeta pasa a modo solo texto.
-- **Demora:** Google tarda unos 5 minutos en actualizar el CSV publicado, y la app consulta cada 5 minutos. Un cambio puede tardar hasta unos 10 minutos en verse.
+- **Demora:** la app consulta la planilla cada 1 minuto y aplica los cambios al empezar la siguiente vuelta del catálogo. En la práctica, un cambio se ve en 1–3 minutos. Google puede demorar algunos minutos más en publicar un cambio, pero en las pruebas fue casi inmediato.
 
 ---
 
@@ -170,7 +170,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 
 ## 9. Actualización de datos y resiliencia
 
-- **Polling:** cada 5 min se descarga el CSV en segundo plano.
+- **Polling:** cada 1 min se descarga el CSV en segundo plano (~1 KB).
   - Si cambió (comparando el texto), queda como **pendiente** y se aplica al empezar el siguiente ciclo de catálogo.
   - Antes de aplicarlo, se precargan sus imágenes.
 - **Caché de datos:** el último CSV válido se guarda en `localStorage`. Al arrancar sin conexión se usa ese. Si no existe (primer arranque sin internet), se muestran solo los videos institucionales: nunca productos de ejemplo en el local.
