@@ -9,7 +9,7 @@ export const CONFIG = {
   itemsPorPagina: 3,
   segundosPorPagina: 10,
   // Cada cuánto se consulta la planilla. Los cambios se aplican al empezar la siguiente vuelta del catálogo.
-  minutosEntreSincronizaciones: 1,
+  minutosEntreSincronizaciones: 5,
 
   videoFondo: 'media/fondo-catalogo.mp4',
   // Se reproduce uno por cada vuelta del catálogo, en este orden.

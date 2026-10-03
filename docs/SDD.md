@@ -34,7 +34,7 @@ Cartelera digital vertical, desatendida y autónoma para la vinoteca **Punto Exp
 
 ```
 Google Sheets (pestaña "Pantalla", publicada como CSV — solo lectura)
-        │  fetch periódico (cada 1 min)
+        │  fetch periódico (cada 5 min)
         ▼
 GitHub Pages — sitio estático (HTML + CSS + JS, sin build)
         │  carga web
@@ -99,7 +99,8 @@ Todo desde el celular, con la app de Google Sheets y la de Google Drive.
 **Notas técnicas:**
 - La app convierte el link de Drive a una URL de imagen directa redimensionada por Google (`https://lh3.googleusercontent.com/d/<ID>=w800`), así las fotos pesadas del celular no se descargan completas.
 - **Riesgo:** este formato de URL no está documentado oficialmente por Google. Funciona (validado en la Fase 2), pero si Google lo cambia, la alternativa es Cloudinary (plan gratuito). Mientras tanto, si una imagen no carga, la tarjeta pasa a modo solo texto.
-- **Demora:** la app consulta la planilla cada 1 minuto y aplica los cambios al empezar la siguiente vuelta del catálogo. En la práctica, un cambio se ve en 1–3 minutos. Google puede demorar algunos minutos más en publicar un cambio, pero en las pruebas fue casi inmediato.
+- **Demora:** la app consulta la planilla cada 5 minutos (configurable) y aplica los cambios al empezar la siguiente vuelta del catálogo. Un cambio se ve en 5–6 minutos como máximo. Recargando la página se ve al instante.
+- **Imágenes y caché:** Google entrega las imágenes con `Cache-Control: max-age=86400`, así que el navegador descarga cada foto una sola vez por día. Las vueltas siguientes la toman de la caché (verificado: 6 fotos, 6 descargas en 3 vueltas). No hay riesgo de exceder límites de Drive.
 
 ---
 
@@ -170,7 +171,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 
 ## 9. Actualización de datos y resiliencia
 
-- **Polling:** cada 1 min se descarga el CSV en segundo plano (~1 KB).
+- **Polling:** cada 5 min se descarga el CSV en segundo plano (~1 KB).
   - Si cambió (comparando el texto), queda como **pendiente** y se aplica al empezar el siguiente ciclo de catálogo.
   - Antes de aplicarlo, se precargan sus imágenes.
 - **Caché de datos:** el último CSV válido se guarda en `localStorage`. Al arrancar sin conexión se usa ese. Si no existe (primer arranque sin internet), se muestran solo los videos institucionales: nunca productos de ejemplo en el local.
