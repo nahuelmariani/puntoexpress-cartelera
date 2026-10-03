@@ -30,6 +30,7 @@ function buildItem(item) {
     const box = el('div', 'item-img');
     const img = new Image();
     img.alt = '';
+    img.crossOrigin = 'anonymous'; // pedido CORS: permite guardar la foto para el modo offline
     img.decoding = 'async';
     img.src = item.image;
     box.append(img);

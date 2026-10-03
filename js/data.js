@@ -119,7 +119,10 @@ function writeCache(text) {
 // Pide las imágenes por adelantado para que estén en la caché del navegador.
 function warmImages(items) {
   for (const item of items) {
-    if (item.image) new Image().src = item.image;
+    if (!item.image) continue;
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // igual que en render.js, para reutilizar la misma respuesta
+    img.src = item.image;
   }
 }
 

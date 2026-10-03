@@ -5,6 +5,7 @@
 //   ?rotar=90|180|270  gira el contenido (TV que no rota solo)
 //   ?debug=1           muestra el estado en pantalla
 //   ?rapido=1          tiempos cortos para probar el ciclo
+//   ?sin-offline=1     desactiva el modo offline y borra todo lo guardado (emergencia)
 // ==========================================================
 import { CONFIG } from './config.js';
 import { loadInitial, startPolling, dataStatus } from './data.js';
@@ -51,8 +52,32 @@ function startDebug() {
       `video:    ${cycleStatus.video}`,
       `datos:    ${data.source} (${data.items} ítems)${data.pending ? ' + cambios pendientes' : ''}`,
       `sync:     ${time(data.lastSync)}`,
+      `offline:  ${navigator.serviceWorker?.controller ? 'activo' : 'inactivo'}`,
     ].join('\n');
   }, 500);
+}
+
+// Modo offline (sw.js): guarda código, videos y fotos en el TV para poder arrancar sin internet.
+async function setupOffline() {
+  if (!('serviceWorker' in navigator)) return;
+  try {
+    if (params.has('sin-offline')) {
+      const controlled = Boolean(navigator.serviceWorker.controller);
+      for (const reg of await navigator.serviceWorker.getRegistrations()) await reg.unregister();
+      for (const key of await caches.keys()) await caches.delete(key);
+      // Esta carga todavía pasa por el Service Worker: se recarga una vez para quedar limpia.
+      if (controlled) location.reload();
+      return;
+    }
+    await navigator.serviceWorker.register('sw.js');
+    const reg = await navigator.serviceWorker.ready;
+    reg.active.postMessage({
+      type: 'precache-media',
+      urls: [CONFIG.videoFondo, ...CONFIG.videosInstitucionales],
+    });
+  } catch (err) {
+    console.warn('Modo offline no disponible:', err);
+  }
 }
 
 async function main() {
@@ -65,6 +90,7 @@ async function main() {
   dom.bgVideo.play().catch(() => {});
 
   if (params.has('debug')) startDebug();
+  setupOffline();
 
   await Promise.all([loadInitial(), document.fonts.ready]);
   startPolling();

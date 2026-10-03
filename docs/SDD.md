@@ -177,8 +177,13 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 - **Caché de datos:** el último CSV válido se guarda en `localStorage`. Al arrancar sin conexión se usa ese. Si no existe (primer arranque sin internet), se muestran solo los videos institucionales: nunca productos de ejemplo en el local.
 - **Respuesta inválida:** si Google devuelve algo que no tiene las columnas esperadas (por ejemplo una página de error), se descarta y se mantienen los datos actuales. Si la planilla es válida pero no tiene ítems activos, se muestran solo los videos.
 - **Errores:** nunca se muestran en pantalla, solo en la consola.
-- **Service Worker (Fase 3):** cachea la app, las tipografías, los videos y las imágenes de productos. Así, ante cortes de Wi-Fi y reinicios, la cartelera sigue funcionando completa y sin descargas durante la reproducción.
-  - **Nota técnica:** los videos requieren soportar peticiones `Range` desde la caché.
+- **Service Worker (`sw.js`, Fase 4 — implementado):** permite **arrancar sin internet** (TV que se prende antes que el Wi-Fi, recarga diaria, corte de luz).
+  - **Código** (HTML, CSS, JS, tipografías, logo): primero internet (con 5 s de espera máxima) y, si no hay, lo guardado. Se guarda todo apenas se instala (`APP_FILES`), así sirve desde la primera visita. Como siempre se intenta internet primero, los cambios al código llegan solos, sin números de versión.
+  - **Videos:** se guardan completos y se sirven siempre desde el TV, respondiendo las peticiones `Range` (por partes) que hace el navegador. La página le pasa al Service Worker la lista de `config.js`: descarga los que falten, de a uno, y borra los que ya no se usan. Si se reemplaza un video **con el mismo nombre de archivo**, hay que subir `VERSION_MEDIA` en `sw.js`.
+  - **Fotos de Drive:** se guardan la primera vez que se muestran (se piden con CORS para que no ocupen lugar de más). Se conservan las últimas 150.
+  - **Planilla:** no pasa por el Service Worker; la última versión ya queda en `localStorage`.
+  - **Emergencia:** `?sin-offline=1` desregistra el Service Worker y borra todo lo guardado.
+  - **Verificado:** con internet cortado y el servidor apagado, la cartelera arranca, muestra los últimos datos y fotos y reproduce y rota todos los videos. Al volver internet retoma la planilla.
 
 ---
 
@@ -211,7 +216,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 │   ├── logo.svg
 │   ├── fondo-catalogo.mp4
 │   └── institucional-1.mp4, -2.mp4, -3.mp4
-├── sw.js                # Fase 3
+├── sw.js                # modo offline (Fase 4)
 ├── tools/preparar-videos.sh  # ffmpeg: recorte 9:16, desenfoque del fondo
 └── docs/
 ```
@@ -232,7 +237,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 | **1. Base** | Repo, estructura, ciclo completo con datos de ejemplo, escalado 9:16 en la PC | El ciclo catálogo → institucional → catálogo corre sin cortes en el navegador |
 | **2. Datos reales** | Planilla real, conversión de links de Drive, formato de precios, actualización sin cortes | El dueño carga un ítem desde el celular y aparece solo |
 | **3. Videos y diseño final** | Videos editados, logo y colores reales, ajuste visual | Aprobación del dueño |
-| **4. Offline** | Service Worker | Con el Wi-Fi cortado y la app recargada, sigue funcionando completa |
+| **4. Offline** ✅ | Service Worker | Con el Wi-Fi cortado y la app recargada, sigue funcionando completa |
 | **5. Instalación** | Configuración de Fully Kiosk, rotación, prueba de rendimiento en el TV | 48 h corriendo sin intervención |
 
 > Recomendación: apenas el TV esté disponible, aunque sea antes de la fase 5, probar una página mínima con video para confirmar el sistema, la rotación y la fluidez.
