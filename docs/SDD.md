@@ -34,7 +34,7 @@ Cartelera digital vertical, desatendida y autónoma para la vinoteca **Punto Exp
 
 ```
 Google Sheets (pestaña "Pantalla", publicada como CSV — solo lectura)
-        │  fetch periódico (cada 5 min)
+        │  fetch periódico (cada 1 min)
         ▼
 GitHub Pages — sitio estático (HTML + CSS + JS, sin build)
         │  carga web
