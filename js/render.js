@@ -37,7 +37,13 @@ function buildItem(item) {
   }
 
   const body = el('div', 'item-body');
-  if (isOffer) body.append(el('span', 'badge', 'Oferta'));
+  if (isOffer) {
+    const badges = el('div', 'badges');
+    badges.append(el('span', 'badge', 'Oferta'));
+    const discount = item.price !== null ? Math.round((1 - item.offerPrice / item.price) * 100) : 0;
+    if (discount >= 1) badges.append(el('span', 'badge badge-descuento', `-${discount}%`));
+    body.append(badges);
+  }
   body.append(el('h2', 'item-name', item.name));
   if (item.detail) body.append(el('p', 'item-detail', item.detail));
 

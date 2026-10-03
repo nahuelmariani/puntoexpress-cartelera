@@ -146,7 +146,7 @@ Todo desde el celular, con la app de Google Sheets y la de Google Drive.
 - **Tarjetas de ítem:** 3 por página, apiladas en vertical. Cada tarjeta tiene:
   - **Imagen:** cuadrado blanco a la izquierda. Coincide con el fondo blanco de las fotos normalizadas, así no se ven "recortes".
   - **Texto, a la derecha:** `Producto` grande, `Detalle` más chico y el precio destacado.
-  - **Oferta:** badge "OFERTA", precio normal tachado y precio de oferta resaltado.
+  - **Oferta:** badge "OFERTA", badge con el porcentaje de descuento calculado automáticamente (ej. `-12%`, redondeado), precio normal tachado y precio de oferta resaltado.
   - **Sin imagen:** la tarjeta ocupa todo el ancho con el texto centrado. Sirve para promos como "Martes 2x1".
 - **Pie:** leyenda "Precios sujetos a disponibilidad de stock" (configurable).
 - **Legibilidad:** tamaños pensados para leer a 2–4 m de distancia. El precio es el elemento más grande de cada tarjeta.
