@@ -3,6 +3,7 @@
 Cartelera digital vertical (1080×1920) para la vinoteca Punto Express. Lee los productos de una planilla de Google Sheets publicada como CSV y alterna el catálogo con videos institucionales.
 
 Diseño completo y decisiones: [docs/SDD.md](docs/SDD.md).
+Instalación en el TV y migración de cuentas: [docs/INSTALACION.md](docs/INSTALACION.md).
 
 ## Correr en la PC
 
