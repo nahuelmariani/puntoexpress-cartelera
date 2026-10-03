@@ -1,41 +1,47 @@
 #!/usr/bin/env bash
-# Prepara videos de stock (Pexels, Pixabay, etc.) para la cartelera.
+# Prepara videos para la cartelera.
 #
 # Uso:
+#   tools/preparar-videos.sh limpiar <entrada.mp4> <salida.mp4>
+#       Para videos que ya son 1080x1920 H.264: quita el audio y deja el video listo para web,
+#       SIN recomprimir (no pierde calidad).
 #   tools/preparar-videos.sh institucional <entrada.mp4> <salida.mp4> [segundos]
-#       Video nítido 1080x1920, recortado al centro, sin audio. Duración opcional (default: 10 s).
+#       Para videos de otro tamaño u orientación: los lleva a 1080x1920 recortando al centro.
 #   tools/preparar-videos.sh fondo <entrada.mp4> <salida.mp4> [segundos]
-#       Video desenfocado y algo oscurecido para el fondo del catálogo (default: 20 s).
+#       Fondo del catálogo: desenfocado, 540x960 (al estar desenfocado no hace falta más)
+#       y en "ida y vuelta" para que el loop no tenga saltos. Duración final: el doble.
 #
-# Ambos salen en H.264 30 fps, sin audio y con "faststart" para que arranquen rápido en el navegador.
+# Se mantienen los fps originales (convertir 24 → 30 fps hace que el movimiento se vea a saltitos).
 set -euo pipefail
 
 if [[ $# -lt 3 ]]; then
-  sed -n '2,10p' "$0"
+  sed -n '2,15p' "$0"
   exit 1
 fi
 
 modo=$1 entrada=$2 salida=$3
 
-# Escala para cubrir 1080x1920 y recorta el centro (sirve para videos horizontales o verticales)
-cubrir='scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30'
+# Escala para cubrir el tamaño pedido y recorta el centro (sirve para videos horizontales o verticales)
+cubrir() { echo "scale=$1:$2:force_original_aspect_ratio=increase,crop=$1:$2"; }
 comunes=(-c:v libx264 -profile:v high -pix_fmt yuv420p -an -movflags +faststart)
 
 case $modo in
+  limpiar)
+    ffmpeg -y -i "$entrada" -map 0:v:0 -c:v copy -an -movflags +faststart "$salida"
+    ;;
   institucional)
     segundos=${4:-10}
-    ffmpeg -y -i "$entrada" -t "$segundos" -vf "$cubrir" \
-      "${comunes[@]}" -b:v 3M -maxrate 4M -bufsize 8M "$salida"
+    ffmpeg -y -i "$entrada" -t "$segundos" -vf "$(cubrir 1080 1920)" \
+      "${comunes[@]}" -crf 20 -maxrate 6M -bufsize 12M "$salida"
     ;;
   fondo)
-    segundos=${4:-20}
-    # El desenfoque se hace en baja resolución: es más rápido y queda más suave.
-    ffmpeg -y -i "$entrada" -t "$segundos" \
-      -vf "$cubrir,scale=270:480,gblur=sigma=10,eq=brightness=-0.06:saturation=1.1,scale=1080:1920" \
-      "${comunes[@]}" -b:v 1M -maxrate 1.5M -bufsize 3M "$salida"
+    segundos=${4:-10}
+    ffmpeg -y -i "$entrada" -t "$segundos" -filter_complex \
+      "[0:v]$(cubrir 540 960),gblur=sigma=14,eq=brightness=-0.04,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1[v]" \
+      -map "[v]" "${comunes[@]}" -b:v 1M -maxrate 1.5M -bufsize 3M "$salida"
     ;;
   *)
-    echo "Modo desconocido: $modo (usar 'institucional' o 'fondo')" >&2
+    echo "Modo desconocido: $modo (usar 'limpiar', 'institucional' o 'fondo')" >&2
     exit 1
     ;;
 esac

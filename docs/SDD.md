@@ -160,9 +160,9 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 1. **Nada de `filter: blur()` ni `backdrop-filter` en tiempo real.** El desenfoque y el oscurecimiento van en el video desde la edición.
 2. **Solo se animan `opacity` y `transform`.** Nunca `box-shadow`, `filter`, `width`/`height` ni propiedades que generen relayout.
 3. **Videos:**
-   - Formato H.264 MP4, 1080×1920, 30 fps, sin audio.
-   - Bitrate de ~3 Mbps para los nítidos. El desenfocado puede ir con bitrate mucho más bajo, porque comprime muy bien.
-   - Se generan con `ffmpeg` a partir de material de stock libre (Pexels/Pixabay).
+   - Formato H.264 MP4, sin audio, con los fps originales (convertir 24 → 30 fps genera tirones).
+   - **Institucionales:** 1080×1920. Los actuales (generados con IA, 4.5–8 Mbps) se usan sin recomprimir, solo se les quita el audio (`tools/preparar-videos.sh limpiar`).
+   - **Fondo del catálogo:** 540×960. Al estar desenfocado se ve igual que en 1080×1920 y el TV decodifica 4 veces menos píxeles. Se arma en "ida y vuelta" para que el loop no tenga saltos.
 4. **Imágenes:** se piden a 800 px de ancho como máximo, y se liberan las que no están en el DOM.
 5. **DOM estable:** cada página se arma una sola vez por ciclo. No se destruye ni recrea nada mientras se ve.
 
@@ -241,11 +241,12 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 ## 13. Decisiones abiertas
 
 - [x] Tiempo por página: 10 s, 3 ítems por página (ambos configurables en `js/config.js`).
-- [x] Logo en los videos institucionales: superpuesto por la app (no grabado en el video), así un cambio de logo no obliga a re-editar videos. Se puede apagar con `logoEnInstitucional`.
+- [x] Logo en los videos institucionales: la app puede superponerlo (`logoEnInstitucional`). Está apagado porque los videos actuales ya traen la marca integrada.
 - [x] Logo y colores: logo vectorizado, gris `#8f8f8f`.
 - [x] Tipografías: Playfair Display + Barlow.
 - [ ] ¿Los ítems en oferta van en página propia, más grandes, o mezclados con el resto? (hoy: mezclados, con badge)
-- [ ] Videos reales de viñedos (hoy hay placeholders generados).
+- [x] Videos institucionales: 4 videos de 10 s generados con IA.
+- [ ] Video de fondo definitivo (hoy: provisorio, hecho con el institucional 3 desenfocado).
 - [ ] Validar que el formato de URL de imágenes de Drive funcione (Fase 2).
 
 ---

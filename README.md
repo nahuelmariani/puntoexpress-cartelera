@@ -27,8 +27,8 @@ Todo lo ajustable (URL de la planilla, tiempos, videos, texto del pie) está en 
 ## Videos
 
 ```bash
-tools/preparar-videos.sh institucional original.mp4 media/institucional-1.mp4
+tools/preparar-videos.sh limpiar original.mp4 media/institucional-1.mp4   # ya es 1080x1920: solo quita el audio
 tools/preparar-videos.sh fondo original.mp4 media/fondo-catalogo.mp4
 ```
 
-Los videos actuales son placeholders generados.
+Los originales van en `videos-originales/` (no se sube a GitHub).

@@ -16,8 +16,10 @@ export const CONFIG = {
     'media/institucional-1.mp4',
     'media/institucional-2.mp4',
     'media/institucional-3.mp4',
+    'media/institucional-4.mp4',
   ],
-  logoEnInstitucional: true,
+  // Los videos actuales ya traen la marca integrada, por eso el logo superpuesto está apagado.
+  logoEnInstitucional: false,
   // Corte de seguridad por si un video nunca avisa que terminó.
   segundosMaxInstitucional: 30,
 
