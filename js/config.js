@@ -4,7 +4,7 @@
 export const CONFIG = {
   // URL del CSV publicado (Archivo → Compartir → Publicar en la web → pestaña "Pantalla" → CSV).
   // Vacía = usa los datos de ejemplo de sample.js.
-  csvUrl: '',
+  csvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT2J0w-MOCUC3KAAJKDQQQNRNN7qFuUUu5i9v_DC3IP93SSmZXALY1a9vDP6tZJv2Qo4JkE8oqo1HE2/pub?gid=1702977947&single=true&output=csv',
 
   itemsPorPagina: 3,
   segundosPorPagina: 10,

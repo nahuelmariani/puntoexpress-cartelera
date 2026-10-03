@@ -98,7 +98,7 @@ Todo desde el celular, con la app de Google Sheets y la de Google Drive.
 
 **Notas técnicas:**
 - La app convierte el link de Drive a una URL de imagen directa redimensionada por Google (`https://lh3.googleusercontent.com/d/<ID>=w800`), así las fotos pesadas del celular no se descargan completas.
-- **Riesgo:** este formato de URL no está documentado oficialmente por Google. Hay que validarlo en la Fase 1. La alternativa es Cloudinary (plan gratuito).
+- **Riesgo:** este formato de URL no está documentado oficialmente por Google. Funciona (validado en la Fase 2), pero si Google lo cambia, la alternativa es Cloudinary (plan gratuito). Mientras tanto, si una imagen no carga, la tarjeta pasa a modo solo texto.
 - **Demora:** Google tarda unos 5 minutos en actualizar el CSV publicado, y la app consulta cada 5 minutos. Un cambio puede tardar hasta unos 10 minutos en verse.
 
 ---
@@ -247,7 +247,7 @@ Reglas obligatorias para la GPU y la memoria limitadas del TV:
 - [ ] ¿Los ítems en oferta van en página propia, más grandes, o mezclados con el resto? (hoy: mezclados, con badge)
 - [x] Videos institucionales: 4 videos de 10 s generados con IA.
 - [x] Video de fondo: generado con IA, desenfocado por script.
-- [ ] Validar que el formato de URL de imágenes de Drive funcione (Fase 2).
+- [x] URL directa de imágenes de Drive (`lh3.googleusercontent.com/d/<ID>=w800`): validada con la planilla real (Fase 2).
 
 ---
 
