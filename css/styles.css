@@ -1,0 +1,271 @@
+/* ==========================================================
+   Tipografías (alojadas en el repo, subset latino: tildes y ñ)
+   ========================================================== */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../fonts/PlayfairDisplay-variable.woff2') format('woff2');
+  font-weight: 400 900;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('../fonts/Barlow-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('../fonts/Barlow-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Barlow';
+  src: url('../fonts/Barlow-800.woff2') format('woff2');
+  font-weight: 800;
+  font-display: block;
+}
+
+:root {
+  --marca-gris: #8f8f8f;
+  --negro: #141414;
+  --texto-suave: #6e6a66;
+  --oferta: #8c1c2b;
+  --etiqueta: #ffffff;
+  --linea: #e8e4de;
+  --fundido: 0.9s;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: none;
+  user-select: none;
+}
+
+/* ==========================================================
+   Escenario fijo 1080x1920. main.js lo escala y rota para
+   que entre en cualquier pantalla.
+   ========================================================== */
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  transform-origin: center;
+  background: #1c1616;
+  font-family: 'Barlow', sans-serif;
+  color: var(--negro);
+}
+
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================
+   Etiqueta blanca (catálogo)
+   ========================================================== */
+.label {
+  position: absolute;
+  inset: 64px 48px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--etiqueta);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.label-header {
+  flex: 0 0 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--marca-gris);
+}
+
+.logo { height: 190px; }
+
+.pages {
+  position: relative;
+  flex: 1;
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 44px;
+  opacity: 0;
+  transition: opacity var(--fundido) ease;
+}
+.page.active { opacity: 1; }
+.page.instant { transition: none; }
+
+.label-footer {
+  flex: 0 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid var(--linea);
+  font-size: 24px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* ==========================================================
+   Ítem
+   ========================================================== */
+.item {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  border-bottom: 2px solid var(--linea);
+}
+.item:last-child { border-bottom: none; }
+
+.item-img {
+  flex: 0 0 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item-img img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.badge {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  background: var(--oferta);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.item-name {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.item-detail {
+  margin: 0 0 20px;
+  font-size: 34px;
+  color: var(--texto-suave);
+}
+
+.item-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.price {
+  font-size: 84px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.price-old {
+  margin-bottom: 6px;
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--texto-suave);
+  text-decoration: line-through;
+}
+
+.item.oferta .price { color: var(--oferta); }
+
+/* Ítem sin imagen (promos tipo "Martes 2x1"): texto centrado y más grande */
+.item.sin-imagen {
+  justify-content: center;
+  text-align: center;
+}
+.item.sin-imagen .item-prices { align-items: center; }
+.item.sin-imagen .item-name { font-size: 76px; }
+
+/* ==========================================================
+   Institucional (video nítido a pantalla completa)
+   ========================================================== */
+.institutional {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.institutional.active { opacity: 1; }
+
+.institutional video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inst-logo {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%);
+  padding: 28px 36px;
+  border-radius: 20px;
+  background: var(--marca-gris);
+}
+.inst-logo img {
+  display: block;
+  height: 150px;
+}
+.institutional.sin-logo .inst-logo { display: none; }
+
+/* ==========================================================
+   Overlay de diagnóstico (?debug=1)
+   ========================================================== */
+#debug {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #7CFC7C;
+  font: 22px/1.4 monospace;
+  white-space: pre;
+}
